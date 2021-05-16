@@ -1,3 +1,3 @@
 import './events';
-import './tests';
+import './eval';
 import './commands';
