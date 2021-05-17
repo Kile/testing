@@ -5,6 +5,7 @@ export const SHOP_CHANNEL = '843492206296039474'; //Channel for commands relatin
 export const CLEARANCE_LVL_ONE_ROLE = ''; //Role to assign once a user obtains clearance level one
 
 export const ITEMS = {
+  // Changing anything in here will break things!
   '1': {
     name: 'Basic Test Widget',
     info: 'A basic testing widget, earned when successful tests are completed.',
@@ -65,10 +66,11 @@ export const ITEMS = {
     quality: 'uncommon',
     slot: 'Hands',
     price: 'not sellable',
-    stats: { efficency: +3 }
+    stats: { efficiency: +3 }
   }
 };
 
+// Default values for a users data
 export const DEFAULT_VALUES = {
   inventory: {},
   coins: 0,
@@ -89,11 +91,14 @@ export const SLOTS = [
   'Off Hand'
 ];
 
+// Those are the random sell responses when the parameters are invalid.
+// feel free to add and remove responses as you like
 export const SELL_RESPONSES = [
   'Error: Invalid Shop Parameters. Please refer to Trading Referendum 1.b',
   'Error: Invalid Shop Parameters. Parameters Inventory Stock'
 ];
 
+// Colors assigned to rarities. Can be changed
 export const COLORS = {
   poor: discord.decor.RoleColors.GRAY,
   uncommon: discord.decor.RoleColors.GREEN,
