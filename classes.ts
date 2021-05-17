@@ -31,6 +31,28 @@ export class User {
         (res as any)[key] += obj2[key];
       }
     }
+    for (const [key, val] of Object.entries(obj2)) {
+      if (!(res as any).hasOwnProperty(key)) {
+        (res as any)[key] = val;
+      }
+    }
+    return res;
+  }
+
+  private substractJson(
+    obj1: pylon.JsonObject,
+    obj2: pylon.JsonObject
+  ): pylon.JsonObject {
+    const res = {};
+    for (const key in obj1) {
+      (res as any)[key] = obj1[key];
+      if (obj2[key]) {
+        (res as any)[key] = (res as any)[key] - (obj2[key] as any);
+        if ((res as any)[key] <= 0) {
+          delete (res as any)[key];
+        }
+      }
+    }
     return res;
   }
 
@@ -42,8 +64,11 @@ export class User {
       data = await this.addDefault();
     }
     this.rawData = data;
-    this.inventory = (data as any)['inventory'];
-    this.coins = (data as any)['coins'];
+    this.used_mail = (data as any).used_mail;
+    this.inventory = (data as any).inventory;
+    this.coins = (data as any).coins;
+    this.stats = (data as any).stats;
+    this.skill = (data as any).skill;
 
     return this;
   }
@@ -56,37 +81,52 @@ export class User {
 
   hasItem(item: number): boolean {
     // Checks if a user has a certain item
-    return ((this.inventory as unknown) as pylon.JsonObject).hasOwnProperty(
-      item
-    );
+    return (this.inventory as any).hasOwnProperty(item);
   }
 
   isEquipped(item: number): boolean {
     // Checks if a user has a certain item equipped
-    return (this.inventory as any)[item]['equipped'];
+    return (this.inventory as any)[item].equipped;
   }
 
   async addCoins(amount: number): Promise<undefined> {
-    // removes coins from a users account
-    let newData = this.rawData['coins'][this.coins + amount];
-    await db.transact(this.id, () => newData);
-    return;
-  }
-
-  async removeCoins(amount: number): Promise<undefined> {
-    // adds coins to a users account
-    this.rawData['coins'] = this.coins - amount;
+    // adds coins to a Users account
+    this.rawData.coins = this.coins + amount;
     await db.transact(this.id, () => this.rawData);
     return;
   }
 
-  async equip(item: number): Promise<undefined> {
-    // Equips an item
-    this.rawData['inventory'][item] = true;
-    this.rawData['stats'] = this.overlayJson(
-      this.rawData['inventory'][item]['stats'],
-      this.stats
-    );
+  async removeCoins(amount: number): Promise<undefined> {
+    // removes coins from a Users account
+    this.rawData.coins = this.coins - amount;
+    await db.transact(this.id, () => this.rawData);
+    return;
+  }
+
+  async equip(
+    item: number,
+    equip: boolean,
+    m: discord.GuildMember
+  ): Promise<undefined> {
+    // Equips or unequips an item
+    this.rawData.inventory[item] = !equip;
+    console.log(this.stats);
+    if (!equip) {
+      this.rawData.stats = this.overlayJson(
+        this.stats,
+        (CONSTANTS.ITEMS as any)[item.toString()].stats
+      );
+    } else {
+      this.rawData.stats = this.substractJson(
+        this.stats,
+        (CONSTANTS.ITEMS as any)[item.toString()].stats
+      );
+    }
+    if (item == 3) {
+      !equip
+        ? await m.addRole(CONSTANTS.CLEARANCE_LVL_ONE_ROLE).catch()
+        : await m.removeRole(CONSTANTS.CLEARANCE_LVL_ONE_ROLE).catch();
+    }
     await db.transact(this.id, () => this.rawData);
     return;
   }
@@ -133,12 +173,13 @@ export class User {
   }
 
   async emptyMailbox(): Promise<any> {
-    this.rawData.inventory.used_mail = true;
+    this.rawData.used_mail = true;
     await db.transact(this.id, () => this.rawData);
+    await this.addItem(6);
   }
 
   isAdvanced(): boolean {
-    return ((this.inventory as unknown) as JSON).hasOwnProperty(2);
+    return (this.inventory as any).hasOwnProperty(2);
   }
 
   getStat(stat: string): number {
