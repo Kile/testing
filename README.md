@@ -16,7 +16,7 @@
     <img scr="https://img.shields.io/github/commit-activity/Kile/testing">
   </a>
     <a>
-    <img scr="https://img.shields.io/github/license/Kile/Killua">
+    <img scr="https://img.shields.io/github/license/Kile/testing">
   </a>
 </p>
 
