@@ -1,8 +1,8 @@
 export const PREFIX = '?'; // The prefix to use for shop commands
 
-export const TESTING_CHANNEL = '843479673941393478'; //Channel where testing happens
-export const SHOP_CHANNEL = '843492206296039474'; //Channel for commands relating to testing
-export const CLEARANCE_LVL_ONE_ROLE = ''; //Role to assign once a user obtains clearance level one
+export const TESTING_CHANNEL = '843479673941393478'; // Channel where testing happens
+export const SHOP_CHANNEL = '843492206296039474'; // Channel for commands relating to testing
+export const CLEARANCE_LVL_ONE_ROLE = ''; // Role to assign once a user obtains clearance level one
 
 export const ITEMS = {
   // Changing anything in here will break things!
