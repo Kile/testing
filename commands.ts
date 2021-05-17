@@ -144,8 +144,7 @@ commands.on(
     name: 'sell',
     filters: discord.command.filters.isChannelId(CONSTANTS.SHOP_CHANNEL),
     onError: (ctx, error) => {
-      console.log(error);
-      //ctx.message.reply(functions.randomChoice(CONSTANTS.SELL_RESPONSES));
+      ctx.message.reply(functions.randomChoice(CONSTANTS.SELL_RESPONSES));
     }
   },
   (args) => ({ item: args.integer(), amount: args.integerOptional() }),
@@ -159,7 +158,6 @@ commands.on(
     name: 'buy',
     filters: discord.command.filters.isChannelId(CONSTANTS.SHOP_CHANNEL),
     onError: (ctx, error) => {
-      console.log(error);
       ctx.message.reply('the shopkeeper looks at you curiously');
     }
   },
