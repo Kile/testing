@@ -134,7 +134,7 @@ commands.raw(
     filters: discord.command.filters.isChannelId(CONSTANTS.SHOP_CHANNEL)
   },
   async (message) => {
-    let embed = functions.constructInventory(message);
+    let embed = await functions.constructInventory(message);
     await message.reply(embed);
   }
 );
@@ -144,7 +144,8 @@ commands.on(
     name: 'sell',
     filters: discord.command.filters.isChannelId(CONSTANTS.SHOP_CHANNEL),
     onError: (ctx, error) => {
-      ctx.message.reply(functions.randomChoice(CONSTANTS.SELL_RESPONSES));
+      console.log(error);
+      //ctx.message.reply(functions.randomChoice(CONSTANTS.SELL_RESPONSES));
     }
   },
   (args) => ({ item: args.integer(), amount: args.integerOptional() }),
@@ -158,10 +159,11 @@ commands.on(
     name: 'buy',
     filters: discord.command.filters.isChannelId(CONSTANTS.SHOP_CHANNEL),
     onError: (ctx, error) => {
+      console.log(error);
       ctx.message.reply('the shopkeeper looks at you curiously');
     }
   },
-  (args) => ({ item: args.string() }),
+  (args) => ({ item: args.number() }),
   async (message, { item }) => {
     await functions.buyItem(message, item);
   }
