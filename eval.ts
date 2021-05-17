@@ -1,5 +1,5 @@
 import { User } from './classes';
-import * as db from './db';
+import * as d from './db';
 import { commands } from './commands';
 
 // This file serves the purpose that it makes it easier for the server owner / an admin
@@ -13,6 +13,8 @@ commands.on(
     code: args.text()
   }),
   async (message, { code }) => {
+    let u = User;
+    let db = d;
     code = code.replace(/\`\`\`.*\n*/g, '');
     try {
       var evaled = await eval(code);
