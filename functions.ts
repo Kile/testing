@@ -1,6 +1,5 @@
 import { User } from './classes';
 import { ITEMS, SLOTS, SELL_RESPONSES, COLORS } from './constants';
-import { transact } from './db';
 
 export function randomChoice(arr: Array<any>): any {
   return arr[~~(Math.random() * arr.length)];
@@ -92,11 +91,13 @@ export async function constructInventory(
     if (typeof value === 'number') {
       text =
         (text ?? '') +
-        `**[${(ITEMS as any)[key].name}]**: ${value}x (\`id = ${key}\`)\n`;
+        `**[${
+          (ITEMS as any)[key.toString()].name
+        }]**: ${value}x (\`id = ${key}\`)\n`;
     } else {
       text =
         (text ?? '') +
-        `**[${(ITEMS as any)[key].name}]**: 1x (\`id = ${key}\`, ${
+        `**[${(ITEMS as any)[key.toString()].name}]**: 1x (\`id = ${key}\`, ${
           value ? '**equipped**' : '**unequipped**'
         })\n`;
     }
@@ -112,19 +113,24 @@ export async function constructInventory(
 
 export async function buyItem(
   message: discord.Message,
-  item: string
+  item: number
 ): Promise<any> {
   let u = await new User(+message.author.id).getData();
 
-  if (['1', '2', '3', '6', '7', '8', '9'].includes(item)) {
+  // different response for items that exist, but are not buyable
+  if ([1, 2, 3, 6, 7, 8, 9].includes(item)) {
     return await message.reply(
       'the shopkeeper looks at you and shakes his head solumnly.'
     );
   }
 
   try {
-    var price = (ITEMS as any)[item].cost;
+    var price = (ITEMS as any)[item.toString()].cost;
   } catch (_) {
+    return await message.reply('the shopkeeper looks at you curiously');
+  }
+
+  if (u.hasItem(item)) {
     return await message.reply('the shopkeeper looks at you curiously');
   }
 
@@ -137,11 +143,13 @@ export async function buyItem(
   await u.removeCoins(price);
   await u.addItem(+item);
 
-  await message.reply(
-    "the shopkeeper smiles takes your coin, handing you the item you've asked for" +
-      (item == '5')
-      ? ''
-      : "\n\na loud horn sounds in the distance. it's break time, for some, at least."
+  return await message.reply(
+    `the shopkeeper smiles takes your coin, handing you the item you've asked for
+      ${
+        item == 5
+          ? ''
+          : "\n\na loud horn sounds in the distance. it's break time, for some, at least."
+      }`
   );
 }
 
@@ -151,7 +159,7 @@ export async function sellItem(
   amount: number = 1
 ): Promise<discord.Message> {
   let u = await new User(+message.author.id).getData();
-  if (!u.inventory.includes(item.toString())) {
+  if (!u.hasItem(item)) {
     // If the item is not in possesion
     return await message.reply(randomChoice(SELL_RESPONSES));
   }
@@ -207,7 +215,7 @@ export async function equipment(
     value: stats ?? 'No stats yet'
   });
 
-  for (const [key, value] of Object.entries(u.stats)) {
+  for (const [key, value] of Object.entries(u.skill)) {
     skill = (skill ?? '') + `**${value}** ${key}`;
   }
 
@@ -284,8 +292,7 @@ export async function equip(
       '**Error**: Equipment manager malfunction. Unknown item specified.'
     );
   }
-  u.rawData.inventory[item] = equipped ? false : true; // Equipping it if it is uneqquiped and via versa
-  await transact(u.id, () => u.rawData); // Because I don't have a function in my class for this
+  await u.equip(item, equipped, message.member!);
   return await message.reply(
     `**Success**: Item **[${(ITEMS as any)[item.toString()].name}]** has been ${
       equipped ? '**unequipped** from' : '**equipped** to'
