@@ -212,8 +212,8 @@ export async function buyItem(
           : "\n\na loud horn sounds in the distance. it's break time, for some, at least."
       }${
       u.hasItem(15) && u.hasItem(16) && u.hasItem(17) && u.hasItem(18)
-        ? ''
-        : '\n\nBiep boop, the manual you read says you now have all pieces for a pc'
+        ? '\n\nBiep boop, the manual you read says you now have all pieces for a pc'
+        : ''
     }`
   );
 }
