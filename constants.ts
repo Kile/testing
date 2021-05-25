@@ -14,7 +14,7 @@ export const FILTER = discord.command.filters.channelIdIn([
 ]);
 
 interface Stats {
-  efficency?: number; // Gives you more testing units
+  efficiency?: number; // Gives you more testing units
   brain?: number; // Not sure what to do with that yet
   safety?: number; // Makes it less likely for you to loose token
   swag?: number; // Makes you more likely to get bonuses
@@ -188,7 +188,7 @@ export const ITEMS: any = {
     slot: 'Main Hand',
     price: 'not sellable',
     cost: 750,
-    stats: { swag: +2, efficency: +2 },
+    stats: { swag: +2, efficiency: +2 },
     clearance: 1
   } as Item,
   10: BADGES[2],
