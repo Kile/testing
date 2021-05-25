@@ -36,6 +36,7 @@ you can reveal these commands to your members, they are the starting commands yo
 <prefix>equip [id]
 <prefix>directory
 ```
+For the other commands, the game gives out hints to the members itself. If you wish to place the hints somewhere else on your server, maybe as an activity reward then you can do that
 
 # How to set it up
 First, add [Pylon](https://pylon.bot) to your server. 
@@ -44,7 +45,7 @@ Then, add the files and file content in this repository to the online editor
 
 There are certain constants in `constants.ts` you should edit, such as
 
-`PREFIX`, `TESTING_CHANNEL`, `SHOP_CHANNEL` and `TESTING_LVL_ONE_ROLE` etc
+`PREFIX`, `TESTING_CHANNEL`, `SHOP_CHANNEL`, `TESTING_LVL_ONE_ROLE` etc
 
 with their respective ids
 
@@ -70,11 +71,11 @@ with their respective ids
 
 `- executive-area` category
 
-`#exxecutive-meetings` is also an optional channel, unlocked by clearance level 2 which serves as a general for people with that clearance level
+`#executive-meetings` is also an optional channel, unlocked by clearance level 2 which serves as a general for people with that clearance level
 
 `#stock-market` This is the testing channel for executives although executives don't test, they `buy` or `sell` stocks
 
-`#executive-control-center` This is `#shop` for executives and above. It surves the purose of not revealing too many commands to level 0s. Executives should use their commands here
+`#executive-control-center` This is `#shop` for executives and above. It surves the purpose of not revealing too many commands to level 0s. Executives should use their commands here. Nonetheless members should be unable to read the channel history
 
 
 # Something about eval.ts
@@ -87,6 +88,6 @@ with their respective ids
 `<prefix>eval  (new u(<user_id>).getData()).then(d => d.addItem(<item_id>))` replacing `<user_id>` and `<item_id>` adds the provided item (if it exists) to the user provided. This also works via versa with `removeItem()`.
 
 # What can I modify
-If you like to add your own twist to the game, my system should be able to handle it. You can modify description, title, name price etc of existing functions. What you cannot do is replace items with other ones. This breaks the system if you don't make sure to adapt every place the item is mentioned. You can add more items without any trouble with an id higher than 20 though, this shoud be no problem and is sure to make the system more interesting. 
+If you like to add your own twist to the game, my system should be able to handle it. You can modify description, title, name price etc of existing items. What you cannot do is replace items with other ones. This breaks the system if you don't make sure to adapt every place the item is mentioned. You can add more items without any trouble with an id higher than 20 though, this shoud be no problem and is sure to make the system more interesting. 
 
 If you have any good idea of what to add, make a pull request!

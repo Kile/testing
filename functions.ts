@@ -41,7 +41,7 @@ export async function handleStocks(
     : await player.addCoins(price);
   await player.increaseSkill('trading');
   return await message.reply(
-    `Successfully ${buy ? 'bought' : 'sold'} 1 stock for **${price}$**`
+    `Successfully ${buy ? 'bought' : 'sold'} 1 stock for **${price}** coins`
   );
 }
 
@@ -187,6 +187,12 @@ export async function buyItem(
       'the shopkeeper looks at you and shakes his head solumnly.'
     );
 
+  if (!u.isAuthorised(ITEMS[item].clearance)) {
+    return await message.reply(
+      'the shopkeeper looks at you and shakes his head solumnly.'
+    );
+  }
+
   try {
     var price = ITEMS[item].cost;
   } catch (_) {
@@ -208,8 +214,8 @@ export async function buyItem(
     `the shopkeeper smiles takes your coin, handing you the item you've asked for
       ${
         item == 5
-          ? ''
-          : "\n\na loud horn sounds in the distance. it's break time, for some, at least."
+          ? "\n\na loud horn sounds in the distance. it's break time, for some, at least."
+          : ''
       }${
       u.hasItem(15) && u.hasItem(16) && u.hasItem(17) && u.hasItem(18)
         ? '\n\nBiep boop, the manual you read says you now have all pieces for a pc'
