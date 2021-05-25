@@ -43,7 +43,6 @@ function getThird(text: string): string {
 
 export async function getPassword(message: discord.Message): Promise<string> {
   let first = getFirst().toUpperCase();
-  console.log(first);
   let second = await codify(message, message.author.username);
   second = second
     .toLowerCase()
