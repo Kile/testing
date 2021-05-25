@@ -104,8 +104,10 @@ export async function handleTest(message: discord.Message): Promise<void> {
             player.used_mail &&
             player.stats.stocks > 300
           ) {
-            await player.addMail(14, 'SOME MESSAGE');
-          }
+          await player.addMail(
+            14,
+            'I noticed your great work, you have been promoted to the CTO. The badge is included in this mail. \n-CEO of Testing Inc.'
+          );
         }
         if (
           100 * Math.random() <

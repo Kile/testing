@@ -220,8 +220,9 @@ commands.on(
 // Handles if the command is unknown
 commands.defaultRaw(async (message) => {
   if (
-    message.channelId !== CONSTANTS.SHOP_CHANNEL ||
-    CONSTANTS.EXECUTIVE_CHANNEL
+    ![CONSTANTS.SHOP_CHANNEL, CONSTANTS.EXECUTIVE_CHANNEL].includes(
+      message.channelId
+    )
   ) {
     return;
   }
