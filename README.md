@@ -81,11 +81,11 @@ with their respective ids
 # Something about eval.ts
 `eval.ts` conatins an eval command that allows administrators to manipulate the database. This is useful for testing, cheating and trolling. Here are a few examples of how to chaange data without much effort with this command.
 
-`<prefix>eval  (new u(<user_id>).getData()).then(d => d.addCoins(<coins>))` replacing `<user_id>` and `<coins>` adds a certain amount of coins to the user with that id. This works also via versa with `removeCoins()`.
+`<prefix>eval  (new u('<user_id>').getData()).then(d => d.addCoins(<coins>))` replacing `<user_id>` and `<coins>` adds a certain amount of coins to the user with that id. This works also via versa with `removeCoins()`.
  
-`<prefix>eval db.del(<user_id>)` Deletes the entire data of a user. I used this when I messed up my data structure while testing. Can also be used for trolling
+`<prefix>eval db.del('<user_id>')` Deletes the entire data of a user. I used this when I messed up my data structure while testing. Can also be used for trolling
 
-`<prefix>eval  (new u(<user_id>).getData()).then(d => d.addItem(<item_id>))` replacing `<user_id>` and `<item_id>` adds the provided item (if it exists) to the user provided. This also works via versa with `removeItem()`.
+`<prefix>eval  (new u('<user_id>').getData()).then(d => d.addItem(<item_id>))` replacing `<user_id>` and `<item_id>` adds the provided item (if it exists) to the user provided. This also works via versa with `removeItem()`.
 
 # What can I modify
 If you like to add your own twist to the game, my system should be able to handle it. You can modify description, title, name price etc of existing items. What you cannot do is replace items with other ones. This breaks the system if you don't make sure to adapt every place the item is mentioned. You can add more items without any trouble with an id higher than 20 though, this shoud be no problem and is sure to make the system more interesting. 

@@ -8,7 +8,7 @@ async function handleCommand(
   message: discord.Message,
   cmd: string
 ): Promise<string | Promise<void>> {
-  const player: User = await new User(+message.author.id).getData();
+  const player: User = await new User(message.author.id).getData();
   if (!player.hasItem(19)) {
     return await unknownCommand(message);
   }

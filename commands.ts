@@ -71,7 +71,7 @@ commands.raw(
     }
   },
   async (message) => {
-    let u = await new User(+message.author.id).getData();
+    let u = await new User(message.author.id).getData();
     if (!u.hasItem(8) || !u.isAuthorised(1) || u.hasItem(10)) {
       return await message.delete(); // Ensuring the command stays a secret
     }
@@ -108,7 +108,7 @@ commands.raw(
     filters: CONSTANTS.FILTER
   },
   async (message) => {
-    let u = await new User(+message.author.id).getData();
+    let u = await new User(message.author.id).getData();
     if (u.used_mail) {
       return await message.reply(
         'you glance into your mailbox, finding nothing but a bunch of cobwebs, the mailbox reminds you of yourself - empty inside'
@@ -136,7 +136,7 @@ https: commands.raw(
     filters: CONSTANTS.FILTER
   },
   async (message) => {
-    let u = await new User(+message.author.id).getData();
+    let u = await new User(message.author.id).getData();
     await message.reply(
       new discord.Embed({
         title: 'Test Facility Directory',
@@ -168,7 +168,7 @@ commands.raw(
     filters: CONSTANTS.FILTER
   },
   async (message) => {
-    let u = await new User(+message.author.id).getData();
+    let u = await new User(message.author.id).getData();
     try {
       await u.craft();
     } catch (_) {

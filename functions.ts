@@ -16,7 +16,7 @@ export async function unknownCommand(message: discord.Message): Promise<void> {
 export async function handleStocks(
   message: discord.Message
 ): Promise<discord.Message> {
-  const player = await new User(+message.author.id).getData();
+  const player = await new User(message.author.id).getData();
   let buy: boolean = message.content.toLowerCase() == 'buy';
   let price = Math.round(
     Math.random() *
@@ -46,7 +46,7 @@ export async function handleStocks(
 }
 
 export async function handleTest(message: discord.Message): Promise<void> {
-  const player = await new User(+message.author.id).getData();
+  const player = await new User(message.author.id).getData();
 
   let choices = [
     'test incomplete, please try again later.',
@@ -152,7 +152,7 @@ export async function handleTest(message: discord.Message): Promise<void> {
 export async function constructInventory(
   message: discord.Message
 ): Promise<discord.Embed> {
-  let u = await new User(+message.author.id).getData();
+  let u = await new User(message.author.id).getData();
   let text;
   //@ts-ignore
   for (const [key, value] of Object.entries(u.inventory)) {
@@ -181,7 +181,7 @@ export async function buyItem(
   message: discord.Message,
   item: number
 ): Promise<discord.Message> {
-  let u = await new User(+message.author.id).getData();
+  let u = await new User(message.author.id).getData();
 
   // different response for items that exist, but are not buyable
   if (!ITEMS[item].cost)
@@ -231,7 +231,7 @@ export async function sellItem(
   item: number,
   amount: number = 1
 ): Promise<discord.Message> {
-  let u = await new User(+message.author.id).getData();
+  let u = await new User(message.author.id).getData();
   if (!u.hasItem(item))
     // If the item is not in possesion
     return await message.reply(randomChoice(SELL_RESPONSES));
@@ -252,7 +252,7 @@ export async function sellItem(
 export async function equipment(
   message: discord.Message
 ): Promise<discord.Embed> {
-  let u = await new User(+message.author.id).getData();
+  let u = await new User(message.author.id).getData();
   let embed = new discord.Embed({
     title: message.author.getTag() + " 's equipped items"
   });
@@ -303,7 +303,7 @@ export async function equipment(
 export async function relax(
   message: discord.Message
 ): Promise<discord.Message> {
-  let u = await new User(+message.author.id).getData();
+  let u = await new User(message.author.id).getData();
   if (u.hasItem(3)) {
     // When author already has clearnce badge level 1
     return await message.reply(
@@ -339,7 +339,7 @@ export async function info(
   if (!data) {
     return '**Error:** Database rejected query `SELECT * FROM items WHERE id = ? AND clearance_level <= 1` - please continue testing.';
   }
-  let u = await new User(+message.author.id).getData();
+  let u = await new User(message.author.id).getData();
   let clearance_level = u.isAuthorised(data.clearance);
   if (!clearance_level) {
     var embed = new discord.Embed({
@@ -398,7 +398,7 @@ export async function equip(
   message: discord.Message,
   item: number
 ): Promise<discord.Message> {
-  let u = await new User(+message.author.id).getData();
+  let u = await new User(message.author.id).getData();
   if (!u.hasItem(item))
     return await message.reply(
       '**Error**: Equipment manager malfunction. Unknown item specified.'
@@ -434,7 +434,7 @@ export async function codify(
   message: discord.Message,
   text: string
 ): Promise<string> {
-  const u = await new User(+message.author.id).getData();
+  const u = await new User(message.author.id).getData();
 
   if (!u.hasItem(8)) return 'Invalid authorization';
 
@@ -446,7 +446,7 @@ export async function textify(
   message: discord.Message,
   text: string
 ): Promise<string> {
-  const u = await new User(+message.author.id).getData();
+  const u = await new User(message.author.id).getData();
 
   if (!u.hasItem(8)) return 'Invalid authorization';
 

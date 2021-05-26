@@ -2,7 +2,7 @@ import * as db from './db';
 import * as CONSTANTS from './constants';
 
 export class User {
-  id: number;
+  id: string;
   rawData: any;
   inventory: any;
   coins: number;
@@ -12,7 +12,7 @@ export class User {
   mail_reward: any;
   clearance_level: number;
 
-  constructor(user_id: number) {
+  constructor(user_id: string) {
     this.id = user_id;
     this.rawData = {};
     this.inventory = {};
